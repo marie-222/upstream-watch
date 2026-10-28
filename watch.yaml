@@ -1,0 +1,24 @@
+# 監視対象の一覧。毎朝のクラウド routine が raw.githubusercontent.com 経由でこのファイルを読む。
+#
+# 項目:
+#   name        表示名
+#   source      版を読むファイルの raw URL（raw.githubusercontent.com だけが使える）
+#   pattern     source の中から版と日付を取る正規表現（1行ずつ照合。グループ1=版、グループ2=公開日）
+#   skip        見出しにこの文字列が含まれる行は未リリースとして無視する
+#   have        自分がパッケージ（導入）済みの版。これより新しい版が出たら通知する
+#   notes       通知に添えて見てほしい点（読む対象の raw URL や、前の版との比較の観点）
+#
+# have を上げるのは、新しい版をパッケージし終えたとき。上げ忘れると同じ通知が毎朝来る。
+
+watch:
+  - name: kitty
+    source: https://raw.githubusercontent.com/kovidgoyal/kitty/master/docs/changelog.rst
+    pattern: '^(\d+\.\d+\.\d+) \[(\d{4}-\d{2}-\d{2})\]'
+    skip: '[future]'
+    have: 0.49.2
+    notes: >-
+      Wayland、IME、Linux パッケージング、ビルド依存に関わる変更を拾う。
+      https://raw.githubusercontent.com/kovidgoyal/kitty/v<latest>/bypy/sources.json の slang の版と、
+      https://raw.githubusercontent.com/kovidgoyal/kitty/v<latest>/go.mod の go の版・toolchain を、
+      have の版（v<have>）の同じファイルと比べて、変わっていれば明記する。
+      参考: Ubuntu の slang-compiler は 2026.1.1 で、kitty 0.49.2 は slang 2026.14.1 を要求していた。
