@@ -35,15 +35,14 @@ watch:
       影響する変更、同梱の rustls クレートの版（Cargo.toml の rustls = "=x.y.z"）が上がったかを明記する。
 
   - name: curl
-    source: https://raw.githubusercontent.com/Homebrew/homebrew-core/master/Formula/c/curl.rb
-    pattern: '^\s*url "https://curl\.se/download/curl-(\d+\.\d+\.\d+)\.tar'
+    source: https://ungh.cc/repos/curl/curl/releases/latest
+    pattern: '"name":"(\d+\.\d+\.\d+)",.*?"publishedAt":"(\d{4}-\d{2}-\d{2})'
     have: 8.23.0
     notes: >-
-      curl 本体のリポジトリからは公開済みの版が読めない（master の RELEASE-NOTES は次の版の開発中の内容）ので、
-      Homebrew の formula の版で代用している。日付は取れない。
-      新しい版のリリースノート https://raw.githubusercontent.com/curl/curl/curl-<版の . を _ にしたもの>/RELEASE-NOTES
-      （例: curl-8_24_0）から、セキュリティ修正（CVE）と、Rustls バックエンド（lib/vtls/rustls.c）・
-      QUIC（lib/vquic/）・configure の変更を拾う。自前のパッチ 3 本（rustls-http3-ngtcp2-quic、rustls-capath、
-      rustls-pinned-public-key[-quic]）が触るファイルなので、変更があれば明記する。
-      curl は Ubuntu の debian/ の上にパッケージしている（packaging/curl）。Ubuntu 側の新しい curl のパッケージは
-      クラウドからは読めない。
+      GitHub のリリースそのもの（ungh.cc が JSON で返す。github.com と api.github.com はクラウドからは読めない）。
+      返ってくる JSON の markdown フィールドがリリースノートなので、そこからセキュリティ修正（CVE）と、
+      Rustls バックエンド（lib/vtls/rustls.c）・QUIC（lib/vquic/）・configure の変更を拾う。自前のパッチ 4 本
+      （rustls-http3-ngtcp2-quic、rustls-capath、rustls-pinned-public-key、rustls-pinned-public-key-quic）が
+      触るファイルなので、変更があれば明記する。ungh.cc は第三者のサービスで、止まったら取得失敗として通知する。
+      curl は Ubuntu の debian/ の上にパッケージしている（packaging/curl）。Ubuntu 側の新しい curl の
+      パッケージはクラウドからは読めない。
