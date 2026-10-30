@@ -9,7 +9,7 @@
 
 ## 版を読める元がないとき
 
-本体のリポジトリに、リリース済みの版を読めるファイルがない対象は、Homebrew の formula（`raw.githubusercontent.com/Homebrew/homebrew-core/master/Formula/<頭文字>/<名前>.rb` の `url` の行）の版で代用できる。リリースから数時間で更新される。日付は取れない（`pattern` のグループ1だけ）。メインラインがリリース前の版を持つ対象（rustls は main が `0.24.0-dev.*`）は、リリース用のブランチ（`rel-0.23`）の `Cargo.toml` を読む。
+本体のリポジトリに、リリース済みの版を読めるファイルがない対象は、Homebrew の formula（`raw.githubusercontent.com/Homebrew/homebrew-core/master/Formula/<頭文字>/<名前>.rb` の `url` の行）の版で代用できる。リリースから数時間で更新される。日付は取れない（`pattern` のグループ1だけ）。メインラインがリリース前の版を持つ対象（例: rustls は main が `0.24.0-dev.*`）は、リリース用のブランチ（`rel-0.23`）の `Cargo.toml` を読む。
 
 ## 項目を足す
 

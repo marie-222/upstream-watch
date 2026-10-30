@@ -34,17 +34,6 @@ watch:
       新しい版が出たら downstream/update-upstream.sh <tag> で追従する。rustls_quic_* や rustls_client_connection_* に
       影響する変更、同梱の rustls クレートの版（Cargo.toml の rustls = "=x.y.z"）が上がったかを明記する。
 
-  - name: rustls
-    source: https://raw.githubusercontent.com/rustls/rustls/rel-0.23/rustls/Cargo.toml
-    pattern: '^version = "(\d+\.\d+\.\d+)"'
-    have: 0.23.46
-    notes: >-
-      rustls 本体（0.23 系。rustls-ffi が =0.23.46 に固定して使っている）。日付は取れない。
-      詳細は https://github.com/rustls/rustls/releases（クラウドからは読めないので、版だけ知らせる）。
-      rustls-ffi がこの版に上がるのを待つ。セキュリティ修正のときは、rustls-ffi 側の新版を急ぐ。
-      rustls::quic の API が変わると、rustls-ffi-quic の quic.rs（Tls13ClientSessionValue、KeyChange など）に影響する。
-      0.24 系は main の Cargo.toml が 0.24.0-dev.* の間は未リリース。
-
   - name: curl
     source: https://raw.githubusercontent.com/Homebrew/homebrew-core/master/Formula/c/curl.rb
     pattern: '^\s*url "https://curl\.se/download/curl-(\d+\.\d+\.\d+)\.tar'
