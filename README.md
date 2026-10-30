@@ -9,7 +9,7 @@
 
 ## GitHub のリリースを読みたいとき
 
-github.com と api.github.com は routine から読めない（このセッションに結びついたリポジトリ以外は 403）。代わりに `https://ungh.cc/repos/<owner>/<repo>/releases/latest` が、リリースの名前・タグ・公開日・リリースノート（markdown）を JSON で返す。ungh.cc はクラウド環境の「許可ドメイン」に入れてある前提（Default 環境）。第三者のサービスなので、止まったら取得失敗の通知になる。
+github.com と api.github.com は routine から読めない（このセッションに結びついたリポジトリ以外は 403）。代わりに `https://ungh.cc/repos/<owner>/<repo>/releases/latest` が、リリースの名前・タグ・公開日・リリースノート（markdown）を JSON で返す。ungh.cc はクラウド環境の「許可ドメイン」に入れてある前提（Default 環境）。リリースの本文（markdown）が、リンクだけのプロジェクトもある（curl がそう）。その場合は、タグ名から `RELEASE-NOTES` などのファイルの raw URL を作って読む。第三者のサービスなので、止まったら取得失敗の通知になる。
 
 ## 版を読める元がないとき
 

@@ -40,7 +40,9 @@ watch:
     have: 8.23.0
     notes: >-
       GitHub のリリースそのもの（ungh.cc が JSON で返す。github.com と api.github.com はクラウドからは読めない）。
-      返ってくる JSON の markdown フィールドがリリースノートなので、そこからセキュリティ修正（CVE）と、
+      JSON の markdown フィールドはリンクと画像だけで、変更点は載っていない。リリースノートは
+      https://raw.githubusercontent.com/curl/curl/curl-<版の . を _ にしたもの>/RELEASE-NOTES（例: curl-8_24_0）
+      を読み、そこからセキュリティ修正（CVE）と、
       Rustls バックエンド（lib/vtls/rustls.c）・QUIC（lib/vquic/）・configure の変更を拾う。自前のパッチ 4 本
       （rustls-http3-ngtcp2-quic、rustls-capath、rustls-pinned-public-key、rustls-pinned-public-key-quic）が
       触るファイルなので、変更があれば明記する。ungh.cc は第三者のサービスで、止まったら取得失敗として通知する。
