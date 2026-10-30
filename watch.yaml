@@ -3,7 +3,8 @@
 # 項目:
 #   name        表示名
 #   source      版を読むファイルの raw URL（raw.githubusercontent.com だけが使える）
-#   pattern     source の中から版と日付を取る正規表現（1行ずつ照合。グループ1=版、グループ2=公開日）
+#   pattern     source の中から版と日付を取る正規表現（1行ずつ照合。グループ1=版、グループ2=公開日。日付が取れない source は
+#               グループ1だけでよく、その場合は日付なしで通知する。複数行に当たるときは、最も新しい版を見る）
 #   skip        見出しにこの文字列が含まれる行は未リリースとして無視する
 #   have        自分がパッケージ（導入）済みの版。これより新しい版が出たら通知する
 #   notes       通知に添えて見てほしい点（読む対象の raw URL や、前の版との比較の観点）
@@ -22,3 +23,38 @@ watch:
       https://raw.githubusercontent.com/kovidgoyal/kitty/v<latest>/go.mod の go の版・toolchain を、
       have の版（v<have>）の同じファイルと比べて、変わっていれば明記する。
       参考: Ubuntu の slang-compiler は 2026.1.1 で、kitty 0.49.2 は slang 2026.14.1 を要求していた。
+
+  - name: rustls-ffi
+    source: https://raw.githubusercontent.com/rustls/rustls-ffi/main/CHANGELOG.md
+    pattern: '^## (\d+\.\d+\.\d+) \((\d{4}-\d{2}-\d{2})\)'
+    have: 0.15.7
+    notes: >-
+      新しい版のセキュリティ節（### Security）と、C API の変更（追加・削除・名前の変更）を拾う。
+      自前の rustls-ffi-quic（https://github.com/small-gear-lab/rustls-ffi-quic）は、この版の上に QUIC API を載せているので、
+      新しい版が出たら downstream/update-upstream.sh <tag> で追従する。rustls_quic_* や rustls_client_connection_* に
+      影響する変更、同梱の rustls クレートの版（Cargo.toml の rustls = "=x.y.z"）が上がったかを明記する。
+
+  - name: rustls
+    source: https://raw.githubusercontent.com/rustls/rustls/rel-0.23/rustls/Cargo.toml
+    pattern: '^version = "(\d+\.\d+\.\d+)"'
+    have: 0.23.46
+    notes: >-
+      rustls 本体（0.23 系。rustls-ffi が =0.23.46 に固定して使っている）。日付は取れない。
+      詳細は https://github.com/rustls/rustls/releases（クラウドからは読めないので、版だけ知らせる）。
+      rustls-ffi がこの版に上がるのを待つ。セキュリティ修正のときは、rustls-ffi 側の新版を急ぐ。
+      rustls::quic の API が変わると、rustls-ffi-quic の quic.rs（Tls13ClientSessionValue、KeyChange など）に影響する。
+      0.24 系は main の Cargo.toml が 0.24.0-dev.* の間は未リリース。
+
+  - name: curl
+    source: https://raw.githubusercontent.com/Homebrew/homebrew-core/master/Formula/c/curl.rb
+    pattern: '^\s*url "https://curl\.se/download/curl-(\d+\.\d+\.\d+)\.tar'
+    have: 8.23.0
+    notes: >-
+      curl 本体のリポジトリからは公開済みの版が読めない（master の RELEASE-NOTES は次の版の開発中の内容）ので、
+      Homebrew の formula の版で代用している。日付は取れない。
+      新しい版のリリースノート https://raw.githubusercontent.com/curl/curl/curl-<版の . を _ にしたもの>/RELEASE-NOTES
+      （例: curl-8_24_0）から、セキュリティ修正（CVE）と、Rustls バックエンド（lib/vtls/rustls.c）・
+      QUIC（lib/vquic/）・configure の変更を拾う。自前のパッチ 3 本（rustls-http3-ngtcp2-quic、rustls-capath、
+      rustls-pinned-public-key[-quic]）が触るファイルなので、変更があれば明記する。
+      curl は Ubuntu の debian/ の上にパッケージしている（packaging/curl）。Ubuntu 側の新しい curl のパッケージは
+      クラウドからは読めない。
