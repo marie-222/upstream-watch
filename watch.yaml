@@ -48,3 +48,27 @@ watch:
       触るファイルなので、変更があれば明記する。ungh.cc は第三者のサービスで、止まったら取得失敗として通知する。
       curl は Ubuntu の debian/ の上にパッケージしている（packaging/curl）。Ubuntu 側の新しい curl の
       パッケージはクラウドからは読めない。
+
+  - name: neovide
+    source: https://ungh.cc/repos/neovide/neovide/releases/latest
+    pattern: '"name":"(\d+\.\d+\.\d+)",.*?"publishedAt":"(\d{4}-\d{2}-\d{2})'
+    have: 0.17.2
+    notes: >-
+      自前のパッチ版（https://github.com/small-gear-lab/apt-packaging の packaging/neovide/patches と winit-patches、
+      docs/neovide-patched.md）が、新しい版にそのまま当たるか見る。パッチが触るのは src/window/wrapper/、
+      src/window/application/、src/window/events.rs、src/bridge/（handler.rs、mod.rs、ui_commands.rs）、
+      src/renderer/opengl.rs、src/renderer/box_drawing/renderer.rs、src/ipc/、src/main.rs、src/cmd_line.rs。
+      これらの変更と、Cargo.toml の winit の版（0.17.2 は =0.30.13。変わると winit のパッチも作り直し）、
+      macOS 専用だった --new-window / --reuse-instance などが Linux に入ったか（入ればパッチが不要になる）、
+      ウィンドウを閉じるときの EGL の扱い（パッチ 0007）が変わったかを明記する。
+
+  - name: neovim
+    source: https://ungh.cc/repos/neovim/neovim/releases/latest
+    pattern: '"name":"Nvim (\d+\.\d+\.\d+)",.*?"publishedAt":"(\d{4}-\d{2}-\d{2})'
+    have: 0.12.6
+    notes: >-
+      自前の deb（https://github.com/small-gear-lab/apt-packaging の packaging/neovim。Ubuntu の neovim の debian/ を
+      新しい upstream に載せ替えたもの、docs/neovim-build.md）がそのままビルドできるか見る。ビルド依存の版の要求
+      （libuv、luajit、tree-sitter ほか）と、runtime の tree-sitter クエリが要求する文法の版、CMake のオプションの変更を拾う。
+      設定（vim.pack、vim.lsp、tree-sitter、extmark、msgpack-rpc）に効く変更、Neovide の最低要求版が上がったか、
+      nvim-treesitter（main）が要る tree-sitter-cli の版が変わったかも明記する。
