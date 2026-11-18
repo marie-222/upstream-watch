@@ -72,3 +72,15 @@ watch:
       （libuv、luajit、tree-sitter ほか）と、runtime の tree-sitter クエリが要求する文法の版、CMake のオプションの変更を拾う。
       設定（vim.pack、vim.lsp、tree-sitter、extmark、msgpack-rpc）に効く変更、Neovide の最低要求版が上がったか、
       nvim-treesitter（main）が要る tree-sitter-cli の版が変わったかも明記する。
+
+  - name: gemini-api-cli
+    source: https://ungh.cc/repos/google-gemini/gemini-api-cli/releases/latest
+    pattern: '"name":"v(\d+\.\d+\.\d+)",.*?"publishedAt":"(\d{4}-\d{2}-\d{2})'
+    have: 0.4.6
+    notes: >-
+      GitHub のリリースそのもの（ungh.cc が JSON で返す。github.com と api.github.com はクラウドからは読めない）。
+      自前の deb（https://github.com/small-gear-lab/apt-packaging の packaging/gemini-api-cli）は、公式のリリースの
+      gemini-api_Linux_x86_64.tar.gz を詰め替えただけなので、新しい版が出たら build.sh の版を上げて作り直す。
+      アーカイブの構成（gemini-api、LICENSE、README.md の 3 つ）や配布名が変わっていないか、
+      認証・設定（GEMINI_API_KEY、configure、whoami）と analyze / files upload / transcribe の変更を明記する。
+      ungh.cc は第三者のサービスで、止まったら取得失敗として通知する。
