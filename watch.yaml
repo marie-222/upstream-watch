@@ -16,7 +16,7 @@ watch:
     source: https://raw.githubusercontent.com/kovidgoyal/kitty/master/docs/changelog.rst
     pattern: '^(\d+\.\d+\.\d+) \[(\d{4}-\d{2}-\d{2})\]'
     skip: '[future]'
-    have: 0.50.0
+    have: 0.51.1
     notes: >-
       Wayland、IME、Linux パッケージング、ビルド依存に関わる変更を拾う。
       https://raw.githubusercontent.com/kovidgoyal/kitty/v<latest>/bypy/sources.json の slang の版と、
@@ -52,7 +52,7 @@ watch:
   - name: neovide
     source: https://ungh.cc/repos/neovide/neovide/releases/latest
     pattern: '"name":"(\d+\.\d+\.\d+)",.*?"publishedAt":"(\d{4}-\d{2}-\d{2})'
-    have: 0.17.2
+    have: 0.17.3
     notes: >-
       自前のパッチ版（https://github.com/small-gear-lab/apt-packaging の packaging/neovide/patches と winit-patches、
       docs/neovide-patched.md）が、新しい版にそのまま当たるか見る。パッチが触るのは src/window/wrapper/、
@@ -76,7 +76,7 @@ watch:
   - name: gemini-api-cli
     source: https://ungh.cc/repos/google-gemini/gemini-api-cli/releases/latest
     pattern: '"name":"v(\d+\.\d+\.\d+)",.*?"publishedAt":"(\d{4}-\d{2}-\d{2})'
-    have: 0.4.6
+    have: 0.5.0
     notes: >-
       GitHub のリリースそのもの（ungh.cc が JSON で返す。github.com と api.github.com はクラウドからは読めない）。
       自前の deb（https://github.com/small-gear-lab/apt-packaging の packaging/gemini-api-cli）は、公式のリリースの
