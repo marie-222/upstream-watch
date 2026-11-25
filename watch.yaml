@@ -84,3 +84,26 @@ watch:
       アーカイブの構成（gemini-api、LICENSE、README.md の 3 つ）や配布名が変わっていないか、
       認証・設定（GEMINI_API_KEY、configure、whoami）と analyze / files upload / transcribe の変更を明記する。
       ungh.cc は第三者のサービスで、止まったら取得失敗として通知する。
+
+  - name: libssl4
+    source: https://raw.githubusercontent.com/openssl/openssl/openssl-4.1/CHANGES.md
+    pattern: '^### Changes between 4\.\d+(?:\.\d+)? and (4\.1\.\d+) \[(\d{1,2} \w{3} \d{4})\]'
+    have: 4.1.0
+    notes: >-
+      OpenSSL 4.1 系（openssl-4.1 ブランチ）の版を見る。未リリースの見出し（日付が xx XXX xxxx）は pattern に当たらないので無視される。
+      4.2 が出たら、このブランチ名と pattern を openssl-4.2 に替える（見出しが 4.1 までしか当たらない）。
+      見出しの下から、セキュリティ修正（CVE）と、libssl.so.4 / libcrypto.so.4 の ABI に関わる変更を拾う。
+      自前の deb（packaging/openssl4）は Ubuntu の openssl 4.0.3-1ubuntu1 の debian/ を削ったものを、4.1.0 の upstream の
+      tarball に載せている（Ubuntu にはまだ 4.1 が無い）。パッチが当たるか、libssl4.symbols の差分（新しいシンボルの版）を見る。
+      Ubuntu 側が 4.1 以降を出したら、そちらの debian/ に載せ替える（pull-lp-source で差分を見る。クラウドからは読めない）。
+
+  - name: tree-sitter-cli
+    source: https://ungh.cc/repos/tree-sitter/tree-sitter/releases/latest
+    pattern: '"name":"v(\d+\.\d+\.\d+)",.*?"publishedAt":"(\d{4}-\d{2}-\d{2})'
+    have: 0.27.2
+    notes: >-
+      GitHub のリリースそのもの（ungh.cc が JSON で返す。github.com と api.github.com はクラウドからは読めない）。
+      自前の deb（packaging/tree-sitter-cli）は、公式の tree-sitter-linux-x64.gz を詰め替えただけ。
+      nvim-treesitter（main）が要求する tree-sitter-cli の下限が上がっていないか、
+      https://raw.githubusercontent.com/nvim-treesitter/nvim-treesitter/main/README.md を見て明記する。
+      CLI のコマンド（build、generate）とパーサ ABI の変更も拾う。ungh.cc は第三者のサービスで、止まったら取得失敗として通知する。
