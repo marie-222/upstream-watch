@@ -52,7 +52,7 @@ watch:
   - name: neovide
     source: https://ungh.cc/repos/neovide/neovide/releases/latest
     pattern: '"name":"(\d+\.\d+\.\d+)",.*?"publishedAt":"(\d{4}-\d{2}-\d{2})'
-    have: 0.17.3
+    have: 0.17.4
     notes: >-
       自前のパッチ版（https://github.com/small-gear-lab/apt-packaging の packaging/neovide/patches と winit-patches、
       docs/neovide-patched.md）が、新しい版にそのまま当たるか見る。パッチが触るのは src/window/wrapper/、
@@ -61,6 +61,8 @@ watch:
       これらの変更と、Cargo.toml の winit の版（0.17.2 は =0.30.13。変わると winit のパッチも作り直し）、
       macOS 専用だった --new-window / --reuse-instance などが Linux に入ったか（入ればパッチが不要になる）、
       ウィンドウを閉じるときの EGL の扱い（パッチ 0007）が変わったかを明記する。
+      0.17.4 では、Cargo.toml に [patch.crates-io] が無くなり（ビルドスクリプトが作る）、renderer/mod.rs の
+      default_background が background に改名されて、パッチ 0009 を直した。同じ種類の変更が無いかも見る。
 
   - name: neovim
     source: https://ungh.cc/repos/neovim/neovim/releases/latest
