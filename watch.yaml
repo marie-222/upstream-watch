@@ -109,3 +109,17 @@ watch:
       nvim-treesitter（main）が要求する tree-sitter-cli の下限が上がっていないか、
       https://raw.githubusercontent.com/nvim-treesitter/nvim-treesitter/main/README.md を見て明記する。
       CLI のコマンド（build、generate）とパーサ ABI の変更も拾う。ungh.cc は第三者のサービスで、止まったら取得失敗として通知する。
+
+  - name: pollo-cli
+    source: https://registry.npmjs.org/@pollo-ai/cli/latest
+    pattern: '"version":"(\d+\.\d+\.\d+)"'
+    have: 0.14.0
+    notes: >-
+      版を読める元は npm レジストリだけ（polloaiofficial/cli はインストーラーだけで、GitHub にリリースもタグも変更履歴も無い）。
+      npm の latest の JSON を読む。公開日は取れない。クラウド環境のネットワークはフルアクセスなので、registry.npmjs.org
+      はそのまま読める（読めなかったときは取得失敗として通知する）。
+      自前の deb（https://github.com/small-gear-lab/apt-packaging の packaging/pollo-cli）は、npm のパッケージ
+      @pollo-ai/cli-linux-x64 を詰め替えただけなので、新しい版が出たら build.sh の版を上げて作り直す。
+      パッケージの構成（bin/pollo、LICENSE、README.md の 3 つ）や、レジストリの署名（dist.signatures）が付いているかを明記する。
+      変更点を読める元は無い。参考に https://raw.githubusercontent.com/polloaiofficial/skills/main/README.md を見て、
+      README の「preview」の注記が外れたか、CLI のコマンド（auth、model、generate、mcp）の記述が変わったかを拾う。
